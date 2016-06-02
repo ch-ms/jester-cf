@@ -16,6 +16,8 @@ fprintf("Loaded %i users with %i reviews\n\n", size(jesterData1));
 % Process
 disp("Process data");
 
+jesterData1 = jesterData1';
+
 disp("Before:");
 disp(jesterData1(1:5, 1:5));
 

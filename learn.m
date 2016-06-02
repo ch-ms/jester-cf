@@ -8,7 +8,7 @@ function [J, X, Theta] = learn(X, Theta, Y, R, num_users, num_jokes, num_feature
 
   learned_params = fmincg(costfn, init_params, opts);
 
-  [X Theta] = unroll(learned_params);
+  [X Theta] = unroll(learned_params, num_jokes, num_users, num_features);
 
   J = calcCost(X, Theta, Y, R);
 

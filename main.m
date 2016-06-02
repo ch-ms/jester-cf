@@ -33,11 +33,10 @@ num_users = size(data)(2);
 num_jokes = size(data)(1);
 X = randn(num_jokes, num_features);
 Theta = randn(num_users, num_features);
-R = data != 0;
+Y = data;
+R = Y != 0;
 
-init_params = [X(:); Theta(:)];
+[J, X, Theta] = learn(X, Theta, Y, R, num_users, num_jokes, num_features);
 
-opts = optimset('GradObj', 'on', 'MaxIter', 40);
-
-% learned_params = fminunc();
-
+J = calcCost(X, Theta, Y, R);
+fprintf("Learned, cost=%i.\n\n", J);

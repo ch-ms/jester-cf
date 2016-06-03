@@ -33,10 +33,17 @@ disp("Learning");
 num_features = 10;
 num_users = size(data)(2);
 num_jokes = size(data)(1);
-X = randn(num_jokes, num_features);
-Theta = randn(num_users, num_features);
 Y = data;
 R = Y != 0;
+
+if (exist("learned.mat", "file") == 0)
+  X = randn(num_jokes, num_features);
+  Theta = randn(num_users, num_features);
+else
+  load learned.mat
+  X = learned_X;
+  Theta = learned_Theta;
+endif
 
 [J, X, Theta] = learn(X, Theta, Y, R, num_users, num_jokes, num_features);
 

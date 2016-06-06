@@ -46,9 +46,11 @@ else
   Theta = learned_Theta;
 endif
 
-[J, X, Theta] = learn(X, Theta, Y, R, num_users, num_jokes, num_features);
+lambda = 1/2;
 
-J = calcCost(X, Theta, Y, R);
+[J, X, Theta] = learn(X, Theta, Y, R, num_users, num_jokes, num_features, lambda);
+
+J = calcCost(X, Theta, Y, R, lambda);
 fprintf("Learned, cost=%i.\n\n", J);
 
 

@@ -31,7 +31,7 @@ disp(data(1:5,1:5));
 % Learn
 disp("Learning");
 
-num_features = 10;
+num_features = 100;
 num_users = size(data)(2);
 num_jokes = size(data)(1);
 Y = data;
@@ -74,7 +74,6 @@ user_rated_ids = find(user_ratings != null_value);
 user_rated = user_ratings(user_rated_ids);
 user_predictions = X * Theta(user_id, :)';
 user_predictions = user_predictions(user_rated_ids);
-user_predictions = round(user_predictions);
 diff = user_rated - user_predictions;
 diff_p = abs(diff / 20);
 max_diff_p = max(diff_p);

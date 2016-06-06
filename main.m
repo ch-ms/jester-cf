@@ -16,6 +16,7 @@ fprintf("Loaded %i users with %i reviews\n\n", size(jesterData1));
 % Process
 disp("Process data");
 
+null_value = 99;
 jesterData1 = jesterData1';
 
 disp("Before:");
@@ -34,7 +35,7 @@ num_features = 10;
 num_users = size(data)(2);
 num_jokes = size(data)(1);
 Y = data;
-R = Y != 0;
+R = Y != null_value;
 
 if (exist("learned.mat", "file") == 0)
   X = randn(num_jokes, num_features);
@@ -69,7 +70,7 @@ pause;
 % Select random user
 user_id = round(rand() * num_users - 1) + 1;
 user_ratings = Y(:, user_id);
-user_rated_ids = find(user_ratings != 0);
+user_rated_ids = find(user_ratings != null_value);
 user_rated = user_ratings(user_rated_ids);
 user_predictions = X * Theta(user_id, :)';
 user_predictions = user_predictions(user_rated_ids);

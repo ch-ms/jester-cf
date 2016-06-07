@@ -97,7 +97,17 @@ anykey();
 validateTestSet(data_train, X, Theta, null_value);
 anykey();
 
+
 % Predictions
+user_id = round(rand() * num_users - 1) + 1;
+user_ratings = data(:, user_id);
+
+fprintf("Recommendations for %i user:\n\n", user_id);
+fprintf("Joke id, predicted rating\n");
+[recs vals] = recommendTopN(user_ratings != null_value, X, Theta(user_id, :), 10);
+disp([recs vals]);
+
+anykey();
 
 
 

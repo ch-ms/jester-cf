@@ -28,13 +28,36 @@ disp("After:");
 disp(data(1:5,1:5));
 
 
+% Split
+disp("Split data");
+
+if (exist("jester-11-splitted.mat", "file") == 0)
+  [data_train data_test] = splitData(data, .1, null_value);
+
+  save -binary jester-11-splitted.mat data_train data_test
+  disp("Splitted");
+else
+  load jester-11-splitted.mat
+  disp("jester-11-splitted.mat exist, using it's data.");
+endif
+
+num_exmpl_original = length(find(data != null_value));
+num_exmpl_train = length(find(data_train != null_value));
+num_exmpl_test = length(find(data_test != null_value));
+
+fprintf("Original/train/test %i %i %i\n\n", num_exmpl_original, ...
+  num_exmpl_train, num_exmpl_test);
+
+anykey();
+
+
 % Learn
 disp("Learning");
 
 num_features = 100;
 num_users = size(data)(2);
 num_jokes = size(data)(1);
-Y = data;
+Y = data_train;
 R = Y != null_value;
 
 if (exist("learned.mat", "file") == 0)
@@ -66,8 +89,7 @@ mean_diff = 1/length(predictions(:)) * sum(predictions(:));
 min_diff = min(predictions(:));
 
 fprintf("Max/min/mean diff %i %i %i.\n", max_diff, min_diff, mean_diff);
-disp("Press any key to continue");
-pause;
+anykey();
 
 % Select random user
 user_id = round(rand() * num_users - 1) + 1;

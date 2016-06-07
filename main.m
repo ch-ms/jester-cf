@@ -38,7 +38,7 @@ if (exist("jester-11-splitted.mat", "file") == 0)
   disp("Splitted");
 else
   load jester-11-splitted.mat
-  disp("jester-11-splitted.mat exist, using it's data.");
+  disp("jester-11-splitted.mat exists, using it's data.");
 endif
 
 num_exmpl_original = length(find(data != null_value));
@@ -55,10 +55,13 @@ anykey();
 disp("Learning");
 
 num_features = 100;
-num_users = size(data)(2);
-num_jokes = size(data)(1);
+num_users = size(data_train)(2);
+num_jokes = size(data_train)(1);
 Y = data_train;
 R = Y != null_value;
+num_examples = length(find(R == 1));
+
+fprintf("Learning on %i examples.\n\n", num_examples);
 
 if (exist("learned.mat", "file") == 0)
   X = randn(num_jokes, num_features);
@@ -91,28 +94,8 @@ min_diff = min(predictions(:));
 fprintf("Max/min/mean diff %i %i %i.\n", max_diff, min_diff, mean_diff);
 anykey();
 
-% Select random user
-user_id = round(rand() * num_users - 1) + 1;
-user_ratings = Y(:, user_id);
-user_rated_ids = find(user_ratings != null_value);
-user_rated = user_ratings(user_rated_ids);
-user_predictions = X * Theta(user_id, :)';
-user_predictions = user_predictions(user_rated_ids);
-diff = user_rated - user_predictions;
-diff_p = abs(diff / 20);
-max_diff_p = max(diff_p);
-
-fprintf("User is %i.\n\n", user_id);
-fprintf("Predictions:\n");
-
-disp("R/P/D/Dp");
-for i = 1:length(user_rated)
-  fprintf("%i %i %i %i\n", user_rated(i), ...
-    user_predictions(i), diff(i), diff_p(i));
-endfor
-
-fprintf("\nMax diff is %i.\n\n", max_diff_p);
-
+validateTestSet(data_train, X, Theta, null_value);
+anykey();
 
 % Predictions
 

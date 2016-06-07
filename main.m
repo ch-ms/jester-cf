@@ -110,4 +110,20 @@ disp([recs vals]);
 anykey();
 
 
+% Calculate similarity for random selected user
+
+user = Theta(user_id, :);
+similarity = sqrt(sum(abs(Theta - user) .^ 2, 2));
+% Penalty for user
+similarity(user_id, :) = Inf;
+[val id] = min(similarity);
+
+fprintf("User %i is similar to %i, distance is %i.\n\n", user_id, id, val);
+
+disp("They ratings:");
+disp(data(:, [user_id id]));
+
+anykey();
+
+
 

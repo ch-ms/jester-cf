@@ -111,12 +111,7 @@ anykey();
 
 
 % Calculate similarity for random selected user
-
-user = Theta(user_id, :);
-similarity = sqrt(sum(abs(Theta - user) .^ 2, 2));
-% Penalty for user
-similarity(user_id, :) = Inf;
-[val id] = min(similarity);
+[val id] = findClosest(Theta, user_id);
 
 fprintf("User %i is similar to %i, distance is %i.\n\n", user_id, id, val);
 
@@ -125,5 +120,16 @@ disp(data(:, [user_id id]));
 
 anykey();
 
+
+% Calculate similarity for random selected joke
+joke_id = round(rand() * num_jokes - 1) + 1;
+[val id] = findClosest(X, joke_id);
+
+fprintf("Joke %i is similar to %i, distance is %i.\n\n", joke_id, id, val);
+
+disp("They ratings first 100 ratings:");
+disp(data([joke_id id], 1:100)');
+
+anykey();
 
 
